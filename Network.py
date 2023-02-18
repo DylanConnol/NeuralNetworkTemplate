@@ -63,7 +63,7 @@ class NeuralNetwork:
 
         return dWL, dBL, loss
 
-    def gradient_descent(self, minibatch, lr):
+    def gradient_descent(self, minibatch: list[tuple], lr: int):
         d = len(minibatch)
         overallloss = 0
         for x,y in minibatch:
