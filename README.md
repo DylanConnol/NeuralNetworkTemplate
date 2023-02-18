@@ -20,7 +20,4 @@ to be implemented soon. Ditto with softmax.
 
 The class has multiple pretty self explanatory functions. There is the backprop
 function, forwardprop function (to actually get an ouput!), gradient descent,
-etc. The functions should have generics to help guide what the input expects.
-
-
-
+etc. The functions should have generics to help guide what the input expects. Note that for backprop and forwardprop, the input and/or target have to be numpy arrays with column width 1 (essentailly just a numpy array with dimensions (N x 1), where N is the number of neurons you want to see)
