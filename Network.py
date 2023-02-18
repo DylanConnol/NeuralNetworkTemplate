@@ -9,15 +9,15 @@ class NeuralNetwork:
                         range(0, self.num_of_layers - 1)]
         self.biases = [2*(np.random.random((neurons_in_layer[i], 1)) - 0.5) for i in range(1, len(neurons_in_layer))]
 
-    def reLu(self, Z):
+    def sigmoid(self, Z):
         # return np.maximum(Z, 0)
         # Probably this:
         return 1.0 / (1.0 + np.exp(-Z))
 
 
-    def dRelu(self, Z):
+    def Derivative_sigmoid(self, Z):
         # return Z > 0
-        return self.reLu(Z) * (1 - self.reLu(Z))
+        return self.sigmoid(Z) * (1 - self.sigmoid(Z))
 
     def softmax(self, x):
         exps = np.exp(x)
@@ -32,10 +32,10 @@ class NeuralNetwork:
             current_z = self.weights[i].dot(a[-1]) + self.biases[i] if i != 0 else self.weights[i].dot(inp) + \
                                                                                    self.biases[i]
             if i != self.num_of_layers-2 or last_activation:
-               current_a = self.reLu(current_z)
+               current_a = self.sigmoid(current_z)
             else:
                 current_a = current_z
-            # current_a = self.reLu(current_z)
+            # current_a = self.sigmoid(current_z)
             z.append(current_z)
             a.append(current_a)
         self.z = z
@@ -50,8 +50,8 @@ class NeuralNetwork:
         dBL = [0] * (self.num_of_layers-1)
 
         for i in range(self.num_of_layers - 2, -1, -1):
-            current_delta = self.dRelu(z[i])*(self.weights[i + 1].T.dot(deltaL[-1])) if i != self.num_of_layers - 2 \
-                else ((a[-1] - target)*(self.dRelu(z[-1]) if last_activation else 1))
+            current_delta = self.Derivative_sigmoid(z[i])*(self.weights[i + 1].T.dot(deltaL[-1])) if i != self.num_of_layers - 2 \
+                else ((a[-1] - target)*(self.Derivative_sigmoid(z[-1]) if last_activation else 1))
             djdw = current_delta.dot(a[i - 1].T) if i != 0 else (current_delta).dot(self.inp.T)
             djdb = current_delta
             dWL[i] = (djdw)
