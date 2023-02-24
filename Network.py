@@ -9,6 +9,11 @@ class NeuralNetwork:
                         range(0, self.num_of_layers - 1)]
         self.biases = [2*(np.random.random((neurons_in_layer[i], 1)) - 0.5) for i in range(1, len(neurons_in_layer))]
 
+        
+    def Relu(self, Z):
+        return np.maximum(0, Z)
+    def Derivative_Relu(self, Z):
+        return return Z > 0 
     def sigmoid(self, Z):
         # return np.maximum(Z, 0)
         # Probably this:
